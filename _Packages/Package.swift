@@ -1,0 +1,33 @@
+// swift-tools-version:5.7
+import PackageDescription
+
+let package = Package(
+    name: "_Packages",
+    products: [
+        .library(name: "_Packages", type: .dynamic, targets: ["_Packages"]),
+    ],
+    dependencies: [
+        .package(url: "https://github.com/apple/swift-algorithms", from: "1.2.1"),
+        .package(url: "https://github.com/apple/swift-atomics", from: "1.3.0"),
+        .package(url: "https://github.com/apple/swift-collections", from: "1.5.0"),
+        .package(url: "https://github.com/apple/swift-crypto", from: "4.5.0"),
+        .package(url: "https://github.com/apple/swift-numerics", from: "1.1.1"),
+        .package(url: "https://github.com/apple/swift-system", from: "1.6.4"),
+    ],
+    targets: [
+        .target(
+            name: "_Packages",
+            dependencies: [
+                .product(name: "Algorithms", package: "swift-algorithms"),
+                .product(name: "Atomics", package: "swift-atomics"),
+                .product(name: "Collections", package: "swift-collections"),
+                .product(name: "Crypto", package: "swift-crypto"),
+                .product(name: "Numerics", package: "swift-numerics"),
+                .product(name: "SystemPackage", package: "swift-system"),
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-cross-module-optimization"], .when(configuration: .release)),
+            ]
+        ),
+    ]
+)
