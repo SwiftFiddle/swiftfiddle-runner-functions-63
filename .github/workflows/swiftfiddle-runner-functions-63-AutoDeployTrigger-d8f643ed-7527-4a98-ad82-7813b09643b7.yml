@@ -11,14 +11,11 @@ on:
     - '.github/workflows/swiftfiddle-runner-functions-63-AutoDeployTrigger-d8f643ed-7527-4a98-ad82-7813b09643b7.yml'
 
   # Allow manual trigger 
-  workflow_dispatch:      
-
+  workflow_dispatch:
+      
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
-      id-token: write #This is required for requesting the OIDC JWT Token
-      contents: read #Required when GH token is used to authenticate with private repo
 
     steps:
       - name: Checkout to the branch
@@ -27,9 +24,7 @@ jobs:
       - name: Azure Login
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.SWIFTFIDDLERUNNERFUNCTIONS63_AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.SWIFTFIDDLERUNNERFUNCTIONS63_AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.SWIFTFIDDLERUNNERFUNCTIONS63_AZURE_SUBSCRIPTION_ID }}
+          creds: ${{ secrets.SWIFTFIDDLERUNNERFUNCTIONS63_AZURE_CREDENTIALS }}
 
       - name: Build and push container image to registry
         uses: azure/container-apps-deploy-action@v2
@@ -43,7 +38,8 @@ jobs:
           containerAppName: swiftfiddle-runner-functions-63
           resourceGroup: swiftfiddle
           imageToBuild: kishikawakatsumi/swiftfiddle-runner-functions-63:${{ github.sha }}
-          _buildArgumentsKey_: |
-            _buildArgumentsValues_
+          
+            
 
+     
 
